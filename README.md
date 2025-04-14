@@ -1,79 +1,123 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 📖 KitaabGhar – Secure eBook Reading App
 
-# Getting Started
+**KitaabGhar** is a React Native mobile app designed to provide a secure and user-friendly eBook reading experience. With both online and offline access modes, strong DRM enforcement, and features like synced notes and semantic search, it ensures that users can enjoy their books securely on a single authorized device.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+---
 
-## Step 1: Start the Metro Server
+## ✅ Key Features
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+### 🔐 DRM (Digital Rights Management)
 
-To start Metro, run the following command from the _root_ of your React Native project:
+- Books are **encrypted using the device's unique ID** upon download.
+- Each downloaded book is **locked to one device** and **cannot be accessed or downloaded on another**.
+- If a book is **deleted outside the app**, it is blocked from re-downloading for **90 days**.
+- Only the **original account** that downloaded the book can delete it — and only through the app.
+- **Single-device login**: logging into a new device logs the user out of the previous one.
+- Downloaded books remain **readable offline**, even if the user is logged out.
+
+---
+
+## 🌐 Online Mode
+
+- Secure login and session handling.
+- Access to:
+  - **Purchased books**
+  - **Recently added books**
+- Online-only features:
+  - **Read books** online
+  - **Download books** for offline reading
+  - **Semantic search** (if enabled)
+  - **Per-page notes**, synced via MongoDB
+
+> Notes and semantic search are only available in **online mode**.
+> Notes are **synced across devices** via the backend.
+
+---
+
+## 📴 Offline Mode
+
+- Access books already downloaded on the device.
+- View **expiry date** for each book.
+- **Book deletion** only allowed while logged into the **same account** used for download.
+- No internet or login required to **read previously downloaded books**.
+- Books are encrypted and readable **only on the original device**.
+
+---
+
+## 📝 Notes System
+
+- Add notes **per page** while reading in online mode.
+- Notes are saved to a **MongoDB database** and synced across devices.
+- Notes are **scoped to the page** (i.e., only visible when that page is open).
+- Not available in offline mode.
+
+---
+
+## 🔍 Semantic Search
+
+- Some books support **semantic search** using natural language.
+- Availability depends on the **publisher's choice at upload time**.
+- Requires **online access**.
+
+---
+
+## 📱 Tech Stack
+
+- **Framework**: React Native
+- **PDF Rendering**: `react-native-pdf`
+- **Encryption**: AES-256 with device binding
+- **Notes & Auth Storage**: MongoDB (via backend API)
+- **Local Storage**: Encrypted device storage
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+- Node.js ≥ 16.x
+- React Native CLI
+- Android Studio / Xcode
+
+### Setup
 
 ```bash
-# using npm
-npm start
-
-# OR using Yarn
-yarn start
+git clone https://github.com/HamadS-IT/KitaabGhar-App.git
+cd KitaabGhar-App
+npm install
+npm run android    # For Android
+npm run ios        # For iOS
 ```
 
-## Step 2: Start your Application
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+---
 
-### For Android
+## 🧪 Testing Checklist
 
-```bash
-# using npm
-npm run android
+- Test login/logout flow across multiple devices.
+- Download a book and try opening it on another device (should be blocked).
+- Read a book offline and confirm decryption works without login.
+- Try deleting a book manually (outside the app) to trigger 90-day block.
+- Add notes in online mode and verify they sync on another device.
+- Test semantic search functionality (if enabled for the book).
 
-# OR using Yarn
-yarn android
-```
+---
 
-### For iOS
+## 🔐 DRM Summary
 
-```bash
-# using npm
-npm run ios
+- Downloaded books are **AES-256 encrypted** and tied to the device.
+- **One-device**, **one-account**, **one-session** model.
+- Unauthorized deletion leads to **temporary block**.
+- Offline reading supported, **but secure**.
 
-# OR using Yarn
-yarn ios
-```
+---
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## 📝 License
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+MIT License © 2025 Hamad Saqib
 
-## Step 3: Modifying your App
+---
 
-Now that you have successfully run the app, let's modify it.
+## 🙌 Credits
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+Special thanks to the open-source libraries and all contributors to the KitaabGhar project.
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
