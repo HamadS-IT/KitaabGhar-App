@@ -62,11 +62,13 @@ const OfflineScreen = () => {
   const navigation = useNavigation();
   const [offlineBooks, setOfflineBooks] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUserID, setcurrentUserID] = useState('');
 
   const listDownloadedBooks = async () => {
     try {
-        const token = await AsyncStorage.getItem('token');
-        if (token) { setLoggedIn(true); }
+        const token  = await AsyncStorage.getItem('token');
+        const userID = await AsyncStorage.getItem('id');
+        if (token) { setLoggedIn(true); setcurrentUserID(userID); }
 
         const hiddenFolderPath = `${RNFS.DocumentDirectoryPath}/.ebooks`;
 
@@ -91,13 +93,13 @@ const OfflineScreen = () => {
 
                 // Validate file name format
                 const nameParts = bookFileName.split('____');
-                if (nameParts.length !== 4) {
+                if (nameParts.length !== 5) {
                     console.warn(`⚠️ Skipping file with invalid format: ${file.name}`);
                     return null;
                 }
 
                 // Extract book details
-                const [bookId, bookName, authorName, expiryDateStr] = nameParts;
+                const [userId,bookId, bookName, authorName, expiryDateStr] = nameParts;
 
                 // Convert expiry date format (replace "99999" with "-")
                 const formattedExpiryDateStr = expiryDateStr.replace(/99999/g, '-');
@@ -112,6 +114,7 @@ const OfflineScreen = () => {
                 }
 
                 return {
+                    userId:userId,
                     bookName: bookName,
                     bookId: bookId,
                     authorName: authorName,
@@ -144,7 +147,7 @@ const OfflineScreen = () => {
     <>
     <View style={styles.headerBookOffline}>
             <Text style={styles.headerBookText}>Book </Text>
-            {loggedIn && (
+            {loggedIn && currentUserID === item.userId && (
       <TouchableOpacity onPress={() => handleDeleteBook(item, setOfflineBooks)} style={styles.deleteIcon}>
         <Icon name="close" size={24} color="#FFF" />
       </TouchableOpacity>

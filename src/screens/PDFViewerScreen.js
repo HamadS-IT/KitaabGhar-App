@@ -246,6 +246,7 @@ const PDFViewerScreen = ({ route }) => {
             const hiddenFolderPath = `${RNFS.DocumentDirectoryPath}/.ebooks`;
             const deviceID   = await AsyncStorage.getItem('deviceID');
             const token      = await AsyncStorage.getItem('token');
+            const userID     = await AsyncStorage.getItem('id');
 
             // Ensure the hidden folder exists
             const folderExists = await RNFS.exists(hiddenFolderPath);
@@ -259,7 +260,7 @@ const PDFViewerScreen = ({ route }) => {
             const formattedExpiryDate = expiryDate.toISOString().split('T')[0].replace(/-/g, '99999');
             const sanitizedBookName = bookName.replace(/\s+/g,'_').replace(/\(/g,'00000').replace(/\)/g,'11111').replace(/[^a-zA-Z0-9_-]/g, '');
             const sanitizedAuthorName = authorName.replace(/\s+/g,'_').replace(/\(/g,'00000').replace(/\)/g,'11111').replace(/[^a-zA-Z0-9_-]/g, '');
-            const fileName = `${bookId}____${sanitizedBookName}____${sanitizedAuthorName}____${formattedExpiryDate}`;
+            const fileName = `${userID}____${bookId}____${sanitizedBookName}____${sanitizedAuthorName}____${formattedExpiryDate}`;
 
             // Define full file paths
             const PDFFilePath = `${hiddenFolderPath}/${fileName}.pdf`;

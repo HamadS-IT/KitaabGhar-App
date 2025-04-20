@@ -54,6 +54,7 @@ const LoginScreen = ({ navigation }) => {
             setError('Please enter your email and password.');
         }else{
             try {
+                console.log(deviceID);
                 const response = await axios.post('/auth/login', { email, password, deviceID });
 
                 const { token, name, profilePic, id } = response.data;

@@ -23,14 +23,14 @@ const cleanDownloadedBooks = async () => {
             const nameParts = bookFileName.split('____');
 
             // Delete files with invalid format (should have 4 parts)
-            if (nameParts.length !== 4) {
+            if (nameParts.length !== 5) {
                 console.warn(`🗑 Deleting invalid file: ${file.name}`);
                 await RNFS.unlink(file.path); // Delete the invalid file
                 continue;
             }
 
             // Extract book details
-            const [bookId, bookName, authorName, expiryDateStr] = nameParts;
+            const [userId,bookId, bookName, authorName, expiryDateStr] = nameParts;
 
             // Convert expiry date format (replace "99999" with "-")
             const formattedExpiryDateStr = expiryDateStr.replace(/99999/g, '-');
